@@ -10,6 +10,12 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.JPasswordField;
+import javax.swing.JTree;
+import javax.swing.JList;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollBar;
+import javax.swing.JSeparator;
 
 public class AppMain03 {
 
