@@ -21,6 +21,9 @@ public class AppMain08 {
     private JFrame frame;
     private JTextField textField;
     private JList<String> list;
+
+    // JList의 원소들을 관리하는 객체
+    // JList에 새로운 원소 추가, 삭제, 선택된 원소에 대한 정보, ...
     private DefaultListModel<String> listModel;
 
     /**
@@ -87,11 +90,11 @@ public class AppMain08 {
         scrollPane.setBounds(12, 112, 356, 346);
         frame.getContentPane().add(scrollPane);
 
-        list = new JList<>();
-        list.setBackground(SystemColor.text);
-        listModel = new DefaultListModel<>();
+        list = new JList<>(); // JList 객체 생성 
+        list.setBackground(SystemColor.text); 
+        listModel = new DefaultListModel<>();// JList 원소들을 관리하는 listModel객체를 생성
+        list.setModel(listModel); // JList 에 listModel을 설정.
         list.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-        list.setModel(listModel);
         scrollPane.setViewportView(list);
 
     }
@@ -99,23 +102,37 @@ public class AppMain08 {
     protected void deleteBtn() {
         int index = list.getSelectedIndex();
 
-        if (index < 0) {
-            JOptionPane.showMessageDialog(frame, "삭제할값을 선택해주세요.", "안내", JOptionPane.WARNING_MESSAGE);
-        } else {
+//        if (index < 0) {
+//            JOptionPane.showMessageDialog(frame, "삭제할값을 선택해주세요.", "안내", JOptionPane.WARNING_MESSAGE);
+//        } else {
+//
+//            int result = JOptionPane.showConfirmDialog(frame, "정말 삭제할까요?", "삭제확인", JOptionPane.YES_NO_CANCEL_OPTION,
+//                    JOptionPane.WARNING_MESSAGE);
+//
+//            if (result == JOptionPane.YES_OPTION) {
+//                listModel.remove(index);
+//            }
+//        }
+        if (index < 0) { // if (index == -1 ) 
+            JOptionPane.showMessageDialog(frame, "삭제할값을 선택해주세요.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            int result = JOptionPane.showConfirmDialog(frame, "정말 삭제할까요?", "삭제확인", JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(frame, "삭제하시겠습니까?", "삭제확인", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE);
 
-            if (result == JOptionPane.YES_OPTION) {
-                listModel.remove(index);
-            }
+        if (result == JOptionPane.YES_OPTION) {
+            listModel.remove(index);
         }
 
     }
 
     protected void inputBtn() {
+        //JTextField에 입력된 내용을 읽고 새로운 원소로 추가
+        
         String textInput = textField.getText();
 
+    
         if (textInput.equals("")) {
             JOptionPane.showMessageDialog(frame, "입력된값이 없습니다.", "안내", JOptionPane.WARNING_MESSAGE);
             return;
