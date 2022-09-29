@@ -64,6 +64,7 @@ public class ContactCreateFrame extends JFrame { // extends(상속)
         // 닫기버튼을 클릭했을때의 기본동작 설정 > DISPOSE_ON_CLOSE : 현재창만 닫기
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
+        //JFrame이 화면에 보이게 될 좌표와 크기(가로/세로)를 설정.
         int x = parent.getX(); // 부모컴포넌트의 x 좌표
         int y = parent.getY(); // 부모컴포넌트의 y 좌표
         setBounds(x, y, 385, 290);
@@ -141,11 +142,12 @@ public class ContactCreateFrame extends JFrame { // extends(상속)
         // Contact 객체 생성
         Contact contact = new Contact(name, phone, email);
         
+        //현재 창 닫기
+        dispose();
+        
         // 새 연락처가 생성됐음을 (contactMain에게) 알려줌.  
         listener.contactInsertNotify(contact);
         
-        //현재 창 닫기
-        dispose();
     }
 
 }
