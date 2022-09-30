@@ -48,9 +48,26 @@ select *
 select * from dept order by deptno desc;
 
 -- 직원테이블(EMP)에서 사번과 이름을 검색, 사번 오름차순 출력
-select empno, ename from emp order by empno;
+SELECT empno, ename FROM emp ORDER BY empno;
 -- 직원테이블(EMP)에서 사번과 이름을 검색, 이름 오름차순 출력
-select empno, ename from emp order by ename;
+SELECT empno, ename FROM emp ORDER BY ename;
 
+-- 직원 테이블 (emp)에서 이름(ename)과 직무(job) 을 "SMITH는 CLERK입니다." 형식으로 출력.
+SELECT ename || '는 ' || job || '입니다.'
+    FROM emp;
 
+-- 직원 테이블(emp)에서 직무(job)을 검색 
+SELECT job FROM emp;
 
+-- 위 결과에서 중복되지 않는 job 값들만 출력 
+-- DISTINCT 는 select 문장에서 한번만, 모든 컬럼 이름들보다 먼저 사용됨
+SELECT DISTINCT job
+    FROM emp;
+
+SELECT DISTINCT job, deptno
+    FROM emp;
+    
+-- 직원 테이블에서 중복되지 않는 부서 번호, 직무를 검색. 출력은 부서번호의 오름차순으로 출력
+SELECT DISTINCT deptno, job
+    FROM emp
+    ORDER BY deptno;
