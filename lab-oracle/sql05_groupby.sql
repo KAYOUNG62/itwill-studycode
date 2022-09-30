@@ -56,13 +56,20 @@ ORDER BY deptno;
 
 -- Ex. 직무별 직원수, 급여의 최댓값, 최솟값, 평균 검색.
 -- 직무 오름차순 정렬
-SELECT sum(job), max(sal), min(sal), round(avg(sal),2)
+SELECT job, count(job), max(sal), min(sal), round(avg(sal),2)
 FROM emp
 GROUP BY job
 ORDER BY job;
 
 -- Ex. 부서별, 직무별 부서번호, 직무, 직원수, 급여 평균 검색
 -- 정렬순서는 (1)부서 번호 (2)직책 오름차순
-
+SELECT deptno, count(deptno), job, COUNT(job), avg(sal)
+FROM emp
+GROUP BY deptno, job
+ORDER BY deptno, job;
 
 -- Ex. 입사연도별 사원수 검색. (힌트) to_char(날짜, 포맷) 이용.
+SELECT to_char(hiredate, 'YYYY') as "HIREDATE", count(hiredate)
+FROM emp
+GROUP BY to_char(hiredate, 'YYYY');
+
