@@ -101,3 +101,84 @@ FROM emp e1 join emp e2
 SELECT e1.empno, e1.ename, e1.mgr, e2.ename
 FROM emp e1, emp e2
 WHERE e1.mgr = e2.empno;
+
+-- 위의 inner join 결과와 left/right/full outer join의 결과를 비교
+SELECT  e1.empno, e1.ename as "직원이름", e1.mgr, e2.ename as "매니저이름"
+FROM emp e1 LEFT JOIN emp e2 
+    ON e1.mgr = e2.empno;
+
+SELECT  e1.empno, e1.ename as "직원이름", e1.mgr, e2.ename as "매니저이름"
+FROM emp e1 full JOIN emp e2 
+    ON e1.mgr = e2.empno;
+
+-- Non-equi join: join의 조건식이 부등식(>, >=, <, <= ...) 이 되는 경우
+-- 사번, 이름,급여, 급여등급을 검색
+SELECT e.empno, e.ename, e.sal, s.grade
+FROM emp e JOIN salgrade s 
+    ON e.sal BETWEEN s.losal AND s.hisal;
+
+
+SELECT e.empno, e.ename, e.sal, s.grade
+FROM emp e, salgrade s
+WHERE e.sal BETWEEN s.losal AND s.hisal;
+--WHERE e.sal BETWEEN s.losal(+) AND s.hisal(+); > left join
+
+--부서이름, 부서위치, 부서의 직원수를 검색 (inner join)
+SELECT count(*), deptno
+FROM emp
+GROUP BY emp.deptno;
+-- 1)ANSI:
+SELECT d.dname, d.loc, count(*)
+FROM dept d JOIN emp e
+    ON d.deptno = e.deptno
+GROUP BY d.dname, d.loc;
+
+-- 2)Oracle
+SELECT d.dname, d.loc, count(*)
+FROM dept d, emp e
+WHERE d.deptno = e.deptno
+GROUP BY d.dname, d.loc;
+
+-- 부서번호, 부서이름, 부서의 사원수, 부서의 급여 최소값, 급여 최대값을 검색
+SELECT d.deptno, d.dname, count(*), max(sal), min(sal)
+FROM dept d JOIN emp e 
+    ON d.deptno = e.deptno
+GROUP BY d.deptno, d.dname;
+
+SELECT d.deptno, d.dname, count(*), max(sal), min(sal)
+FROM dept d, emp e
+WHERE d.deptno = e.deptno
+GROUP BY d.deptno, d.dname;
+
+-- 3개의 테이블을 join
+-- 급여가 3000이상인 직원이름, 부서위치, 급여, 등급을 검색. 
+SELECT e.ename, d.loc, e.sal, s.grade
+FROM emp e 
+    JOIN dept d ON d.deptno = e.deptno
+    JOIN salgrade s ON e.sal BETWEEN s.losal AND s.hisal
+WHERE e.sal >= 3000;
+
+SELECT e.ename, d.loc, e.sal, s.grade
+FROM emp e, dept d, salgrade s
+WHERE d.deptno = e.deptno
+    AND e.sal BETWEEN s.losal AND s.hisal
+    AND e.sal >= 3000;
+
+-- dept emp1 emp2, salgrade
+-- 부서번호, 부서이름, 사번, 이름, 매니저사번, 매니저이름, 급여, 급여등급을 검색
+-- 부서번호 오름차순, 사번 오름차순
+SELECT e1.deptno, d.dname, e1.empno, e1.ename, e1.mgr, e2.ename, e1.sal, s.grade
+FROM emp e1 
+    JOIN emp e2 ON e1.mgr = e2.empno
+    JOIN dept d ON e1.deptno = d.deptno
+    JOIN salgrade s ON e1.sal BETWEEN s.losal AND s.hisal
+ORDER BY e1.deptno, e1.empno;
+
+SELECT e1.deptno, d.dname, e1.empno, e1.ename, e1.mgr, e2.ename as "매니저 이름",
+    e1.sal, s.grade
+FROM emp e1, emp e2, dept d, salgrade s
+WHERE e1.mgr = e2.empno
+    AND e1.deptno = d.deptno
+    AND e1.sal BETWEEN s.losal AND s.hisal
+ORDER BY e1.deptno, e1.empno;
+
