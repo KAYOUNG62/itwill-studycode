@@ -84,11 +84,34 @@ public class BlogDaoImpl implements BlogDao {
     @Override
     public Blog select(Integer blogNo) {
         // TODO Auto-generated method stub
-        return null;
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            conn = getConnection();
+            String sql = SQL_SELECT_BY_NO;
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, COL_BLOG_NO);
+            
+            stmt.executeQuery();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeResources(conn,stmt);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+           
+        return select(blogNo);
     }
 
     @Override
     public int insert(Blog blog) {
+        //TODO
         Connection conn = null;
         PreparedStatement stmt = null;
         
@@ -100,11 +123,16 @@ public class BlogDaoImpl implements BlogDao {
             stmt.setString(2, COL_CONTENT);
             stmt.setString(3, COL_AUTHOR);
             
-            int result = stmt.executeUpdate();
+            stmt.executeUpdate();
             
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally {
+            try {
+                closeResources(conn,stmt);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         
         return 1;
@@ -126,7 +154,7 @@ public class BlogDaoImpl implements BlogDao {
             
         }
         
-        return 0;
+        return 1;
     }
 
     @Override
