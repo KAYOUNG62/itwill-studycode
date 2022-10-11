@@ -17,12 +17,15 @@ public interface JdbcSql {
             TBL_BLOGS, COL_TITLE, COL_CONTENT, COL_AUTHOR);
     
     // 블로그 글 업데이트
-    String SQL_UPDATE = String.format("update %s set %s = ?, %s = ? %s = sysdate where %s = ?", 
+    String SQL_UPDATE = String.format("update %s set %s = ?, %s = ? , %s = sysdate where %s = ?", 
             TBL_BLOGS, COL_TITLE, COL_CONTENT, COL_MODIFIED_DATE ,COL_BLOG_NO);
     
     // 블로그 글 삭제 
     String SQL_DELETE = String.format("delete from %s where %s = ?" , 
             TBL_BLOGS, COL_BLOG_NO );
+    
+//    String SQL_SELECT_BY_TITLE_ = String.format("select * from %s where %s = %" + "?" + "%", 
+//            TBL_BLOGS, COL_BLOG_NO);
     
     // 제목/내용/작성자로 검색하기
     // String SQL_UPDATE_TITLE = String.format("select * from %s where ");

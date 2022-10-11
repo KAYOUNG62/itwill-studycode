@@ -43,19 +43,21 @@ public class BlogDaoImpl implements BlogDao {
     
     @Override
     public List<Blog> select() {
-        List<Blog> list = new ArrayList<>();
+        List<Blog> list = new ArrayList<>(); // 리턴하기 위한 ArrayList - select의 결과를 저장.
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            conn = getConnection();
-            String sql = String.format("select * from %s order by %s desc" , TBL_BLOGS, COL_BLOG_NO);
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
+            conn = getConnection(); // 오라클 DB와 연결(접속)
             
-            while(rs.next()) {
+            String sql = SQL_SELECT_ALL; //SQL 문장 준비 
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery(); // SQL 문장 실행
+            
+            while(rs.next()) { //ResultSet에 row 데이터가 있으면
+                // row 에서 각 컬럼에 잇는 값들을 분석.
                 Integer blogNo = rs.getInt(COL_BLOG_NO);
                 String title = rs.getString(COL_TITLE);
                 String content = rs.getString(COL_CONTENT);
@@ -63,6 +65,7 @@ public class BlogDaoImpl implements BlogDao {
                 LocalDateTime createdDate = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
                 LocalDateTime modifiedDate = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
                 
+                //블로그 타임 객체 생성
                 Blog blog = new Blog(blogNo, title, content, author, createdDate, modifiedDate);
                 list.add(blog);
             }
@@ -83,47 +86,58 @@ public class BlogDaoImpl implements BlogDao {
 
     @Override
     public Blog select(Integer blogNo) {
-        // TODO Auto-generated method stub
+        Blog blog = null;
         
         Connection conn = null;
         PreparedStatement stmt = null;
+        ResultSet rs = null;
         
         try {
             conn = getConnection();
-            String sql = SQL_SELECT_BY_NO;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, COL_BLOG_NO);
-            
-            stmt.executeQuery();
+            stmt = conn.prepareStatement(SQL_SELECT_BY_NO);
+            stmt.setInt(1, blogNo);
+                    
+            rs = stmt.executeQuery();
+            if (rs.next()) { // 검색 결과에서 row 데이터가 있으면
+                Integer no = rs.getInt(COL_BLOG_NO);
+                String title = rs.getString(COL_TITLE);
+                String content = rs.getString(COL_CONTENT);
+                String author = rs.getString(COL_AUTHOR);
+                LocalDateTime created = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
+                LocalDateTime modified = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
+                
+                blog = new Blog(no, title, content, author, created, modified);
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
+                rs.close();
                 closeResources(conn,stmt);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
            
-        return select(blogNo);
+        return blog;
     }
 
     @Override
     public int insert(Blog blog) {
-        //TODO
+        int result = 0; // DB insert 결과 값(insert된 행의 개수)을 저장할 변수
+        
         Connection conn = null;
         PreparedStatement stmt = null;
         
         try {
             conn = getConnection();
-            String sql = SQL_INSERT;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, COL_TITLE);
-            stmt.setString(2, COL_CONTENT);
-            stmt.setString(3, COL_AUTHOR);
+            stmt = conn.prepareStatement(SQL_INSERT);
+            stmt.setString(1, blog.getTitle());
+            stmt.setString(2, blog.getContent());
+            stmt.setString(3, blog.getAuthor());
             
-            stmt.executeUpdate();
+            result = stmt.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,38 +149,49 @@ public class BlogDaoImpl implements BlogDao {
             }
         }
         
-        return 1;
+        return result;
     }
 
 
     @Override
     public int update(Blog blog) {
+        int result = 0;
+        
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
             conn = getConnection();
-            String sql = SQL_UPDATE;
-            stmt = conn.prepareStatement(sql);
+            stmt = conn.prepareStatement(SQL_UPDATE);
+            stmt.setString(1, blog.getTitle());
+            stmt.setString(2, blog.getContent());
+            stmt.setInt(3, blog.getBlogNo());
+            result = stmt.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            
+            try {
+                closeResources (conn, stmt);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        
-        return 1;
+        return result;
     }
 
     @Override
     public int delete(Integer blogNO) {
+        
+        int result = 0;
+        
         Connection conn = null;
         PreparedStatement stmt = null;
         
         try {
             conn = getConnection();
-            String sql = SQL_DELETE;
-            stmt = conn.prepareStatement(sql);
+            stmt = conn.prepareStatement(SQL_DELETE);
             stmt.setInt(1, blogNO);
+            result = stmt.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -178,7 +203,7 @@ public class BlogDaoImpl implements BlogDao {
             }
         }
         
-        return 1;
+        return result;
     }
     
     
