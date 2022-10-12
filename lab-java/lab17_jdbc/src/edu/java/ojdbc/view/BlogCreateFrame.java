@@ -136,7 +136,7 @@ public class BlogCreateFrame extends JFrame {
         String content = textContent.getText();
         String author = textAuthor.getText();
         
-        if(title.equalsIgnoreCase("") || content.equals("")|| author.equals("")) {
+        if(title.equals("") || content.equals("")|| author.equals("")) {
             JOptionPane.showMessageDialog(this, // parentComponent . this > BlogCreateFram의 인스턴스 주소
                     "제목, 내용, 작성자를 입력하세요.", "ERROR", JOptionPane.ERROR_MESSAGE);
             return; // insert 못하도록 메서드 종료

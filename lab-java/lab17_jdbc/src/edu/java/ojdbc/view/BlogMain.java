@@ -22,6 +22,11 @@ import edu.java.ojdbc.view.BlogDetailFrame.OnBlogUpdateListener;
 import static edu.java.ojdbc.model.Blog.Entity.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
@@ -30,8 +35,10 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
     private JFrame frame;
     private JTable table;
     private DefaultTableModel model;
+    private JComboBox<String> comboBox;
 
     private BlogDaoImpl dao;
+    private JTextField textKeyword;
 
     /**
      * Launch the application.
@@ -83,6 +90,7 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(255, 255, 255));
         frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
 
         JButton btnCreate = new JButton("새 글 작성");
@@ -94,6 +102,17 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
                 // this만 작성시 익명클래스(ActionListener)의 주소를 가져온다.
             }
         });
+
+        JButton btnReadAll = new JButton("전체 보기");
+        btnReadAll.setBackground(SystemColor.activeCaption);
+        btnReadAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initializeTable();
+            }
+        });
+        btnReadAll.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        buttonPanel.add(btnReadAll);
         btnCreate.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         buttonPanel.add(btnCreate);
 
@@ -121,13 +140,57 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         table = new JTable();
-//        model = new DefaultTableModel(null, COLUMN_NAMES);
-//        table.setModel(model); 
         scrollPane.setViewportView(table);
+
+        JPanel searchPanel = new JPanel();
+        frame.getContentPane().add(searchPanel, BorderLayout.SOUTH);
+
+        comboBox = new JComboBox<>();
+        String[] comboBoxItems = { "제목", "내용", "제목 + 내용", "작성자" };
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(comboBoxItems);
+        comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+        comboBox.setModel(comboBoxModel);
+        comboBox.setSelectedIndex(0);
+        searchPanel.add(comboBox);
+
+        textKeyword = new JTextField();
+        textKeyword.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+        searchPanel.add(textKeyword);
+        textKeyword.setColumns(10);
+
+        JButton btnSearch = new JButton("검색");
+        btnSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchBlogsByKeword();
+            }
+        });
+        btnSearch.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+        searchPanel.add(btnSearch);
 
     }
 
-    protected void showDetailFrame() {
+    private void searchBlogsByKeword() {
+        String keyword = textKeyword.getText();
+        if (keyword.equals("")) {
+            JOptionPane.showMessageDialog(frame, "검색어를 입력하세요.", "WARNING", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int type = comboBox.getSelectedIndex();
+        System.out.println(type + " " + keyword);
+
+        // TODO: DAO에 검색 타입과 검색어를 argument로 갖는 검색 메서드 호출
+        List<Blog> list = dao.select(type, keyword);
+        model = new DefaultTableModel(null, COLUMN_NAMES);
+        table.setModel(model);
+        for (Blog b : list) {
+            Object[] row = { b.getBlogNo(), b.getTitle(), b.getAuthor(), b.getModifiedDate() };
+            model.addRow(row);
+        }
+    }
+
+    private void showDetailFrame() {
         int row = table.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(frame, "테이블의 행을 먼저 선택하세요.", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -139,7 +202,7 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
 
     }
 
-    protected void deleteBlog() {
+    private void deleteBlog() {
         int row = table.getSelectedRow(); // 테이블에서 선택된 행 인덱스
 
         if (row == -1) { // 선택된 행이 없는 경우.
