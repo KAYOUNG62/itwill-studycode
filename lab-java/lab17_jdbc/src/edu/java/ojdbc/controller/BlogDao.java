@@ -17,4 +17,7 @@ public interface BlogDao {
     int update(Blog blog); // SQL_UPDATE / Main3
     
     int delete(Integer blogNO); // SQL_DELETE / Main4
+    
+    // SELECT BY TITLE , SELECT BY CONTENT, SELECT BY AUTHOR, SELECT BY TITLE OR CONTENT 
+    List<Blog> select(int type, String keword);
 }
