@@ -120,9 +120,9 @@ public class ContactDaoImpl implements ContactDao {
         try {
             conn = getConnection();
             stmt = conn.prepareStatement(SQL_CREATE);
-            stmt.setString(1, COL_NAME);
-            stmt.setString(2, COL_PHONE);
-            stmt.setString(3, COL_EMAIL);
+            stmt.setString(1, contact.getName());
+            stmt.setString(2, contact.getPhone());
+            stmt.setString(3, contact.getEmail());
             
             result = stmt.executeUpdate();
         } catch (SQLException e) {

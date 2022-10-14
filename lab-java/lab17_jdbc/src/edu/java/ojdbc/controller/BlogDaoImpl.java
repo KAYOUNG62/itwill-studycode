@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
 
 import edu.java.ojdbc.model.Blog;
 import oracle.jdbc.OracleDriver;

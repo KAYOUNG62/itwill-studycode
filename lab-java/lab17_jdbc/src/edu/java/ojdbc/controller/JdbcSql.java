@@ -16,8 +16,8 @@ public interface JdbcSql {
             COL_AUTHOR);
 
     // 블로그 글 업데이트
-    String SQL_UPDATE = String.format("update %s set %s = ?, %s = ? , %s = sysdate where %s = ?", TBL_BLOGS, COL_TITLE,
-            COL_CONTENT, COL_MODIFIED_DATE, COL_BLOG_NO);
+    String SQL_UPDATE = String.format("update %s set %s = ?, %s = ? , %s = sysdate where %s = ?", 
+            TBL_BLOGS, COL_TITLE, COL_CONTENT, COL_MODIFIED_DATE, COL_BLOG_NO);
 
     // 블로그 글 삭제
     String SQL_DELETE = String.format("delete from %s where %s = ?", TBL_BLOGS, COL_BLOG_NO);
@@ -36,7 +36,7 @@ public interface JdbcSql {
             COL_CONTENT, COL_BLOG_NO);
 
     // 작성자로 검색하기
-    String SQL_SELECT_BY_AUTHOR = String.format("select * from %s where lower(%s) like ? order by %s desc", TBL_BLOGS,
-            COL_AUTHOR, COL_BLOG_NO);
+    String SQL_SELECT_BY_AUTHOR = String.format("select * from %s where lower(%s) like ? order by %s desc", 
+            TBL_BLOGS, COL_AUTHOR, COL_BLOG_NO);
 
 }
