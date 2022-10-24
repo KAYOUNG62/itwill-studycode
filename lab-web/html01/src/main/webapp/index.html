@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- DTD(Document Type Definition): 문서 타입 정의 -->
+<html>
+<!-- 시작태그(starting tag) -->
+<head>
+<!-- HTML 파일의 설정들 -->
+<meta charset="UTF-8" />
+<!--컨텐트를 갖지 않는 태그인 경우-->
+<title>HTML</title>
+</head>
+<body>
+    <!-- 브라우저 화면에서 보여지는 내용 -->
+
+    <!-- HTML 요소(element) - HTML 태그 (tag)
+    o. block 요소: 자동으로 줄바꿈 되는 요소. 크기(width, height)를 지정할 수 있는 요소.
+        - 예: h1, ... h6, div, p, form, ul, ol, dl, table, ... 
+    o. inline 요소: 자동으로 줄바꿈이 되지 않는 요소. 크기(width, ...)를 지정할 수 없는 요소.
+        - 예: a, span, ... 
+    o. inline-block 요소: inline 요소처럼 자동으로 줄바꿈이 되지 않지만, 크기(width, ...)를 지정할 수 있음.
+        - 예: img, ... 
+        - CSS를 이용해서 block 또는 inline 요소들을 inline-block 요소로 변환할 수 있음.
+
+    http://localhost:8888/html01/
+    
+    이클립스 설정 저장
+>> File - Exprot - General - Preferences - 이름설정 (eclipse-pref)
+이클립스 설정 불러오기
+>> File - Import - General - Preferences - 불러오기
+
+설정
+Window - Preferences - browser검색 - Chrome 선택
+Window - Preferences - Server - Runtime Environmnet - add - Apach - 설치한 tomcat 의 버전 선택, 설치한 tomcat 폴더 선택
+
+Project 는 Dynamic Web Project ( 생성시 Generate web.xml deployment descriptor 체크박스 선택)
+
+Servers 에서 new 생성 , 생성된 서버 포트번호를 변경해야됨 8080에서 8888, 생성된 서버 클릭 후 run 선택
+
+
+www.w3schools.com : 공부하기 좋은 사이트
+-->
+
+    <!-- block 요소 -->
+    <h1>첫번째 HTML</h1>
+    <h2>KKY</h2>
+
+    <!-- inline 요소 -->
+    <a href="http://www.naver.com"> 네이버 </a>
+    <br />
+    <!-- break: line break(줄바꿈) -->
+    <a href="http://www.daum.net"> 다음 </a>
+    <br />
+
+    <ul>
+        <li><a href="01_Section.html">Section Tag</a></li>
+        <li><a href="02_Image.html"> Image Tag</a></li>
+        <li><a href="03_list.html">List Tag</a></li>
+        <li><a href="04_table.html">Table Tag</a></li>
+    </ul>
+
+
+
+
+</body>
+</html>
+<!-- 종료태그(end tag) -->
