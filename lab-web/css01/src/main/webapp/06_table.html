@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS</title>
+<style>
+#tbl-member, #tbl-member th, #tbl-member td { /* 자손 th 찾기 */
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#tbl-post {
+    width: 100%; /* 브라우저에서 사용가능한 가로 길이의 100%를 사용 (**반응형 웹)*/
+    border-collapse: collapse;
+}
+
+#tbl-post th, #tbl-post td {
+    border-bottom: 1px solid gray;
+    padding: 4px;
+}
+
+#tbl-post th {
+    background-color: mediumseagreen;
+}
+
+#tbl-post>tbody>tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+#tbl-post>tbody>tr:hover{
+    background-color: darkgray;
+}
+</style>
+</head>
+<body>
+    <h1>Table</h1>
+    <table id="tbl-member">
+        <caption>회원정보</caption>
+        <thead>
+            <tr>
+                <th>아이디</th>
+                <th>비밀번호</th>
+                <th>이메일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>admin</td>
+                <td>damin1111</td>
+                <td>admin@test.com</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>guest</td>
+                <td>guest111</td>
+                <td>guest@test.com</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>hong</td>
+                <td>hong111</td>
+                <td>hong@test.com</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr />
+    <table id="tbl-post">
+        <caption>자유게시판</caption>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성시간</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>CSS</td>
+                <td>admin</td>
+                <td>2022-10-26</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>안녕하세요</td>
+                <td>guest</td>
+                <td>2022-10-26</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>공지사항입니다</td>
+                <td>관리자</td>
+                <td>2022-10-26</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>곧 점심시간입니다.</td>
+                <td>오쌤</td>
+                <td>2022-10-26</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>HTML table style</td>
+                <td>admin</td>
+                <td>2022-10-26</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
