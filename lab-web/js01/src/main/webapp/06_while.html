@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript</title>
+</head>
+<body>
+    <h1>JavaScript while</h1>
+    <div id="result"></div>
+    
+    <script>
+    // while 사용 break 사용
+    // id = result elemen에 구구단을 출력
+    // (1) 구구단3단
+    // (2) 구구단2단 ~ 9단 출력 2단은 2x2, 3단은 3x3, break 사용
+    const result = document.getElementById('result');
+    let text = '';
+    let n = 1;
+    while(n < 10){
+    	text += `3 x ${n} = ${3 * n } <br/>`;
+        n++;
+    }
+    result.innerHTML = text;
+    
+    text = '';
+    let d = 2;
+    while(d < 10) {
+        let i = 1;
+    	while(i < 10){
+    		text += `${d} x ${i} = ${d * i} <br/>`;
+    		if (i == d) {
+    			break;
+    		}
+    		i++;
+    	}
+        text += '----------<br/>'
+        d++;
+    }
+    
+    result.innerHTML = text;
+    
+    result.innerHTML += '<hr/>';
+    
+    //do-while 반복문
+    
+    text = '';
+    n = 10;
+    do {
+    	text += `JavaScript ${n} <br/>`;
+        n++;
+    } while (n <10);
+    
+    result.innerHTML += text;
+    
+    </script>
+</body>
+</html>

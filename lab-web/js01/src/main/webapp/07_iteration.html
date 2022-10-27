@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript</title>
+<style>
+div {
+    border: 1px solid gray;
+    padding: 8px;
+    margin: 8px;
+}
+
+table, th, td {
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+    <h1>Heading 만들기</h1>
+    <button onclick="makeHeadings()">클릭</button>
+    <div id="result">H1~ H6</div>
+
+    <hr />
+    <h2>테이블 body 만들기</h2>
+    <button onclick="makeTableBody()">클릭</button>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+            </tr>
+        </thead>
+        <tbody id ="tblBody">
+        </tbody>
+    </table>
+
+
+    <script>
+    const result = document.getElementById('result');
+    
+    function makeHeadings(){
+        let text = '';
+    	for (let n = 1; n < 7; n++) {
+    		text += `<h${n}> h${n}</h${n}>`;
+    	}
+    	result.innerHTML = text;
+    }
+    
+    const tblBody = document.getElementById('tblBody');
+    function makeTableBody() {
+    	let text = '';
+    	for (let t = 10; t >= 0; t--) {
+    		text += '<tr>'
+    			  + '<td>' + t + '</td>'
+    			  + '<td>' + '제목' + t + '</td>'
+    			  + '<td>' + admin + '</td>'
+    			  +'</tr>'
+    	}
+    	tblBody.innerHTML = text;
+    }
+    
+    
+    </script>
+</body>
+</html>

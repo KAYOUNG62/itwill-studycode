@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript</title>
+</head>
+<body>
+    <h1>JavaScript for</h1>
+    <div id="result"></div>
+    
+    <script>
+    const result = document.getElementById('result');
+    let text = ''; // 구구단 2단의 내용을 작성할 문자열.
+    for(let n = 1; n < 10; n++){
+        //text += '2 x ' + n + ' = ' + (2 * n) + '<br/>';
+        text += `2 x ${n} = ${2 * n} <br/>`;
+    }
+    result.innerHTML = text;
+    result.innerHTML += '<hr/>'; //horizontal ruler += 기존의 내용을 지우지 않고 끝에 추가
+    
+    // 구구단 2단부터 9단까지 출력
+    text ='';
+    for (let d = 2; d < 10; d++) {
+    	for (let n = 1; n < 10; n++){
+    		text += `${d} x ${n} = ${d * n} <br/>`;
+    	}
+        text += '-------------------<br/>';
+    }
+    result.innerHTML = text; 
+    
+    // 구구단을 2단은 2x2까지 3단은 3x3까지 
+    text = '';
+    for(let d = 2; d <10; d ++ ){
+    	for (let n = 1; n < 10; n++ ) {
+    		text += `${d} x ${n} = ${d * n} <br/>`;
+    		if(n == d) {
+    			break;
+    		}
+    	}
+    	text += '-------------------<br/>'
+    }
+    result.innerHTML = text;
+    
+    </script>
+</body>
+</html>
