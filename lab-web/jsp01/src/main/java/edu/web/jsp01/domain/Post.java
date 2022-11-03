@@ -13,7 +13,6 @@ public class Post {
     
     // argument 생성자
     public Post(Integer id, String title, String content, LocalDateTime createTime) {
-        super();
         this.id = id;
         this.title = title;
         this.content = content;

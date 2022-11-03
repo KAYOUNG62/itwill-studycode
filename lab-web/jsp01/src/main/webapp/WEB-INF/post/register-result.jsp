@@ -5,24 +5,25 @@
 <head>
 <meta charset="UTF-8">
 <title>JSP</title>
+<style>
+div {
+    margin : 8px;
+}
+</style>
 </head>
 <body>
     <h1>글 상세보기</h1>
     <div>
-        <label>아이디</label>
         <input type="number" value=" ${post.id}" readonly/>
     </div>
     <div>
-        <label>제목</label>
         <input type="text" value=" ${post.title}" readonly/>
     </div>
     <div>
-        <label>본문</label>
-        <textarea rows="5" cols="50" > ${post.content} </textarea>
+        <textarea rows="10" cols="50" >${post.content}</textarea>
     </div>
     <div>
-        <label>날짜</label>
-        <input type="datetime" value="${post.createTime}" readonly/>
+        <input type="datetime-local" value="${post.createTime}" readonly/>
     </div>
 </body>
 </html>
