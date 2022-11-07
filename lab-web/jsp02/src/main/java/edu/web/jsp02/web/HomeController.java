@@ -23,10 +23,10 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("homeController.doGet()");
-        
+
         // View로 이동(forward)
         request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-        
+
     }
 
 }
