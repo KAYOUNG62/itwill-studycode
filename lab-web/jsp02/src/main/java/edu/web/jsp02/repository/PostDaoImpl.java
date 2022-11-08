@@ -15,12 +15,15 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import edu.web.jsp02.datasource.HikariDataSourceUtil;
 import edu.web.jsp02.domain.Post;
+import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
 
 //MVC 아키텍쳐에서 Controller의 계층들 중에서 DB 관련 작업을 수행하는 계층.
 //Controller 계층: Web layer(Servlet) - Service layer - Repository layer(DAO)
+@Slf4j
 public class PostDaoImpl implements PostDao {
     // Slf4j로그를 사용하기 위해서
-    private static final Logger log = LoggerFactory.getLogger(PostDaoImpl.class);
+    //private static final Logger log = LoggerFactory.getLogger(PostDaoImpl.class);
 
     private static PostDaoImpl instance = null;
     private HikariDataSource ds;
@@ -90,7 +93,8 @@ public class PostDaoImpl implements PostDao {
         log.info(SQL_INSERT);
 
         int result = 0; // DB에 insert 성공했을 때 시퀀스로 생성된 글 번호
-
+        
+        // (변수를 밖에서 선언하는 이유 : try뿐만 아니라 finally 에서도 사용하기 위해서)
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -111,6 +115,96 @@ public class PostDaoImpl implements PostDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+        return result;
+    }
+
+    public static final String SQL_SELECT_BY_ID = "select * from POSTS where ID = ?";
+
+    @Override
+    public Post select(Integer id) {
+        log.info("select(id={})", id);
+
+        //엔터티: DB 테이블의 행에 저장된 데이터. 레코드
+        Post entity = null;
+
+        try {
+            @Cleanup // 리소스 사용이 끝난 후에 close() 메서드를 자동으로 호출
+            Connection conn = ds.getConnection();
+            
+            @Cleanup
+            PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+            log.info(SQL_SELECT_BY_ID);
+            stmt.setInt(1, id);
+            
+            @Cleanup
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) { //검색된 행(row, 레코드)가 있으면
+                // 아이디로 불러오기 때문에 아이디까지 불러올 필요 없음 
+                //Integer postId = rs.getInt("ID");
+                String title = rs.getString("TITLE");
+                String content = rs.getString("CONTENT");
+                String author = rs.getString("AUTHOR");
+                LocalDateTime createdTime = rs.getTimestamp("CREATED_TIME").toLocalDateTime();
+                LocalDateTime modifiedTime = rs.getTimestamp("MODIFIED_TIME").toLocalDateTime();
+
+                entity = Post.builder().id(id).title(title).content(content)
+                        .author(author).createdTime(createdTime)
+                        .modifiedTimr(modifiedTime).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        // Connection, PreparedStatement, ResultSet을 선언할 때 @Cleanup을 사용했기 때문에, 
+        // finally에서 close 메서드를 호출할 필요 없이, 모든 리소스는 자동으로 해제됨. 
+        return entity;
+    }
+    
+    public static final String SQL_DELETE = "delete from POSTS where ID = ? ";
+    
+    @Override
+    public int delete(Integer id) {
+        log.info("delete(id={})", id);
+        //DB 에서 delete SQL 실행 결과값을 저장하기 위한 변수
+        int result = 0;
+        
+        try {
+            @Cleanup
+            Connection conn = ds.getConnection();
+            @Cleanup
+            PreparedStatement stmt = conn.prepareStatement(SQL_DELETE);
+            log.info(SQL_DELETE);
+            
+            stmt.setInt(1, id);
+            
+            result = stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public static final String SQL_UPDATE = "update POSTS set TITLE =?, CONTENT=?, MODIFIED_TIME = sysdate where ID = ?";
+    
+    @Override
+    public int update(Post post, Integer id) {
+        int result = 0;
+        
+        try {
+            @Cleanup
+            Connection conn = ds.getConnection();
+            @Cleanup
+            PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE);
+            stmt.setString(1, post.getTitle());
+            stmt.setString(2, post.getContent());
+            stmt.setInt(3, id);
+            
+            result = stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }

@@ -23,19 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 public class PostCreateController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private PostService postService = PostServiceImpl.getInstance();
+    private PostService postService;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
     public PostCreateController() {
-
+        postService = PostServiceImpl.getInstance();
     }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("doGet()");
@@ -47,31 +48,24 @@ public class PostCreateController extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
      */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("doPost()");
-        request.setCharacterEncoding("UTF-8");
-//        
-//        // 요청 파라미터 분석: title, content, author 값을 찾음
+
+        // 요청 파라미터 분석: title, content, author 값을 찾음
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String author = request.getParameter("author");
-        log.info(title);
-        log.info(content);
-        log.info(author);
-        
-//        // PostCreateDto 타입 객체 생성
-        PostCreateDto dto = new PostCreateDto();
 
-        dto.setTitle(title);
-        dto.setContent(content);
-        dto.setAuthor(author);
-        
-//        // PostService create() 메서드 호출 - postDao호출 - DB에 저장
+        // PostCreateDto 타입 객체 생성
+        PostCreateDto dto =PostCreateDto.builder().title(title).content(content).author(author).build();
         log.info("create(dto={})", dto);
+        
+        // PostService create() 메서드 호출 - postDao호출 - DB에 저장
         postService.create(dto);
         
-//        // 포스트 목록 페이지로 이동(redirect)
+        // 포스트 목록 페이지로 이동(redirect)
         response.sendRedirect("/jsp02/post");
 
     }
