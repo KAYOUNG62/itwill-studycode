@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.web.jsp02.domain.Post;
 import edu.web.jsp02.dto.PostCreateDto;
+import edu.web.jsp02.dto.postUpdateDto;
 import edu.web.jsp02.repository.PostDao;
 import edu.web.jsp02.repository.PostDaoImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +55,22 @@ public class PostServiceImpl implements PostService {
     }
     
     @Override
-    public int update(Post post, Integer id) {
-        log.info("update(post = {})", post);
-        return postDao.update(post, id);
+    public int update(postUpdateDto dto) {
+        log.info("update(dto = {})", dto);
+        //dto를 Entity로 변환해서 Repository 계층에 메서드를 호출 
+        // 업데이트된 행의 개수 리턴 
+        return postDao.update(dto.toEntity());
     }
+    
+    @Override
+    public List<Post> search(String type, String keyword) {
+        log.info("search )type={}, keyword={})" , type ,keyword);
+        return postDao.selectByKeyword(type, keyword);
+    }
+    
+//    @Override
+//    public int update(Post post, Integer id) {
+//        log.info("update(post = {})", post);
+//        return postDao.update(post, id);
+//    }
 }

@@ -14,6 +14,11 @@ public interface PostDao {
 
     public int delete(Integer id);
 
-    public int update(Post post, Integer id);
+    public int update(Post entity);
+    
+    public List<Post> selectByKeyword(String type ,String Keyword);
+    
+//    public int update(Post post, Integer id);
+
 
 }

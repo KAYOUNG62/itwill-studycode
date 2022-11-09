@@ -55,11 +55,8 @@
                     <label id="modifiedTime">수정시간</label>
                     <input id="modifiedTime" type="text" value="${post.modifiedTime}" readonly />
                 </div>                
-                
             </form>
         </main>
-        
-    
     </div>
 </body>
 </html>

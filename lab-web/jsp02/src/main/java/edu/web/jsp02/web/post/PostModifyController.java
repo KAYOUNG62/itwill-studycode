@@ -1,4 +1,4 @@
-package edu.web.jsp02.web;
+package edu.web.jsp02.web.post;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.web.jsp02.domain.Post;
+import edu.web.jsp02.dto.postUpdateDto;
 import edu.web.jsp02.service.PostService;
 import edu.web.jsp02.service.PostServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -61,16 +62,20 @@ public class PostModifyController extends HttpServlet {
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         
-        Post post = Post.builder().id(id).title(title).content(content).build();
-        log.info("post={}", post);
+        postUpdateDto dto = postUpdateDto.builder().id(id).title(title).content(content).build();
+        log.info("dto={}", dto);
         
-        int result = postService.update(post, id);
-        log.info("update result= {}", result);
+        int result = postService.update(dto);
         
-        post = postService.readById(id);
-        request.setAttribute("post", post);
-        request.getRequestDispatcher("/WEB-INF/post/detail.jsp").forward(request, response);
-//        response.sendRedirect("/jsp02/post/modity");
+        
+        response.sendRedirect("/jsp02/post/detail?id=" +id );
+        
+        //PRG(Post - Redirect - Get) 패턴
+        
+//        int result = postService.update(post, id);
+//        post = postService.readById(id);
+//        request.setAttribute("post", post);
+//        request.getRequestDispatcher("/WEB-INF/post/detail.jsp").forward(request, response);
                 
                 
     }

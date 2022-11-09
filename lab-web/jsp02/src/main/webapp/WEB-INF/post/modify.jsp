@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -88,6 +89,15 @@
     //btnUpdate 이벤트리스너 등록
     btnUpdate.addEventListener('click', function(event){
     	event.preventDefault();
+    	
+    	const title = document.querySelector('#title').value;
+    	const content = document.querySelector('#content').value;
+    	console.log(content);
+    	if (title == '' || content == '') {
+    		alert('제목과 내용을 입력해주세요.');
+    		return;
+    	}
+    	
     	const checkUpdate = confirm('수정하시겠습니까?');
     	console.log(checkUpdate);
     	if(checkUpdate){
