@@ -31,7 +31,7 @@
         <main>
             <div>
                 <label for="id">회원번호</label>
-                <input id="id" type="text" value="${user.id}" readonly/>
+                <input id="id" type="text" name="id" value="${user.id}" readonly/>
            </div>
             <div>
                 <label for="username">아이디</label>

@@ -6,27 +6,47 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JSP02</title>
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+    crossorigin="anonymous">
+<style>
+.mainDiv {
+    text-align: center;
+}
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 16px;
+    padding: 10px;
+}
+input {
+    margin : 5px;
+}
+</style>    
 </head>
 <body>
-    <div>
+    <div class="mainDiv">
         <h1>포스트 수정 페이지</h1>
             
         <nav>
-            <ul>
-                <li>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
                     <c:url var="mainPage" value="/"></c:url>
-                    <a href="${mainPage}">메인페이지</a>
+                    <a class="nav-link" href="${mainPage}" style="color: gray;">메인페이지</a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <c:url var="listPage" value="/post"></c:url>
-                    <a href="${listPage}">목록페이지</a>
+                    <a class="nav-link" href="${listPage}" style="color: gray;">목록페이지</a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <c:url var="postDetailPage" value="/post/detail">
-                        <c:param name="id" value="${post.id}"></c:param>
+                        <c:param name="id" value="${post.id}" ></c:param>
                     </c:url>
-                    <a href="${postDetailPage}">포스트 상세 페이지</a>
+                    <a class="nav-link" href="${postDetailPage}" style="color: gray;">포스트 상세 페이지</a>
                 </li>
             </ul>
         </nav>
@@ -36,11 +56,11 @@
             method: 제출(submit)방식.  기본값은 get -->
                 <div>
                     <label for="id">번호</label>
-                    <input id="id" type="text" name="id" value="${post.id}" readonly/>
+                    <input id="id" type="text" name="id" value="${post.id}" readonly size=48 />
                 </div>
                 <div>
                     <label for="title">제목</label>
-                    <input id="title" type="text" name="title" value="${post.title}" required />
+                    <input id="title" type="text" name="title" value="${post.title}" required size=48 />
                 </div>
                 <div>
                     <label for="content">내용</label>
@@ -48,7 +68,7 @@
                 </div>
                 <div>
                     <label for="author">작성자</label>
-                    <input id="author" type="text" value="${post.author}" readonly/>
+                    <input id="author" type="text" value="${post.author}" readonly size=46/>
                 </div>
                 <div>
                     <button id="btnDelete">삭제</button>

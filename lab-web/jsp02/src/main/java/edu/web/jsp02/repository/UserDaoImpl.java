@@ -87,6 +87,8 @@ public class UserDaoImpl implements UserDao {
             Connection conn = ds.getConnection();
             @Cleanup
             PreparedStatement stmt = conn.prepareStatement(SQL_INSERT);
+            
+            //prepared statement의 바인딩 파라미터(binding parameter) 값들을 세팅.
             stmt.setString(1, entity.getUsername());
             stmt.setString(2, entity.getPassword());
             stmt.setString(3, entity.getEmail());
@@ -97,7 +99,37 @@ public class UserDaoImpl implements UserDao {
         }
         return result;
     }
-
+    
+    private static final String SQL_SELECT_BY_Username_AND_PASSWORD = 
+            "select * from USERS where USERNAME = ? and PASSWORD =? ";
+    
+    @Override
+    public User selectByUsernameAndPassword(User user) {
+        log.info("selectByUsernameAndPassword({})",user);
+        
+        User entity = null;
+        
+        try {
+            @Cleanup
+            Connection conn = ds.getConnection();
+            @Cleanup
+            PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_BY_Username_AND_PASSWORD);
+            log.info(SQL_SELECT_BY_Username_AND_PASSWORD);
+            stmt.setString(1, user.getUsername());       
+            stmt.setString(2, user.getPassword());
+            @Cleanup
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next()) {
+                entity = recordToEntity(rs);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entity;
+    }
+    
     private static final String SQL_SELECT_BY_ID = "select * from USERS where ID = ? ";
     
     @Override

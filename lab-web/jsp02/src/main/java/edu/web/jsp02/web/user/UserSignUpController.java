@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.web.jsp02.dto.UserCreateDto;
+import edu.web.jsp02.dto.UserSignUpDto;
 import edu.web.jsp02.service.UserService;
 import edu.web.jsp02.service.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -16,15 +16,15 @@ import lombok.extern.slf4j.Slf4j;
  * Servlet implementation class UserCreateController
  */
 @Slf4j
-@WebServlet(name = "userCreateController", urlPatterns = { "/user/userCreate" })
-public class UserCreateController extends HttpServlet {
+@WebServlet(name = "userSignUpController", urlPatterns = { "/user/signup" })
+public class UserSignUpController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserService userService;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserCreateController() {
+    public UserSignUpController() {
         userService = UserServiceImpl.getInstance();
     }
 
@@ -36,7 +36,7 @@ public class UserCreateController extends HttpServlet {
             throws ServletException, IOException {
         log.info("doGet() 호출");
         
-        request.getRequestDispatcher("/WEB-INF/user/userCreate.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/user/userSignup.jsp").forward(request, response);
         
     
     }
@@ -49,18 +49,24 @@ public class UserCreateController extends HttpServlet {
             throws ServletException, IOException {
         log.info("doPost() 호출");
         
+        //요청 파라미터를 분석
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         
-        UserCreateDto dto = UserCreateDto.builder()
+        UserSignUpDto dto = UserSignUpDto.builder()
                 .username(username).password(password).email(email)
                 .build();
-        log.info("create(dto={}", dto);
         
-        userService.create(dto);
+        int result = userService.signUp(dto);
+        log.info("signUp(dto={}", dto);
         
-        response.sendRedirect("/jsp02/user");
+        if(result == 1 ) {
+            response.sendRedirect("/jsp02/user/signin"); //로그인 페이지로 이동
+        } else {
+            response.sendRedirect("/jsp02/user/signup");
+        }
+        
     }
 
 }

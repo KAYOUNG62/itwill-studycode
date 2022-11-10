@@ -11,6 +11,7 @@ public interface UserDao {
     public User select(Integer id);
     public int delete(Integer id);
     public int update(User entity);
+    public User selectByUsernameAndPassword(User user);
     
     
     
