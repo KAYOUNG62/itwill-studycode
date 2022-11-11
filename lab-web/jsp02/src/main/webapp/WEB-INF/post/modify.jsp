@@ -66,15 +66,17 @@ input {
                     <label for="content">내용</label>
                     <textarea id="content" type="text" name="content" rows="10" cols="50" required>${post.content}</textarea>
                 </div>
-                <div>
-                    <label for="author">작성자</label>
+                <div style="display: none">
+                    <label for="author" >작성자</label>
                     <input id="author" type="text" value="${post.author}" readonly size=46/>
                 </div>
+                <c:if test="${signInUser == post.author}">
                 <div>
                     <button id="btnDelete">삭제</button>
                     <button id="btnUpdate">수정완료</button>
                     <!-- form 안에서 작성된 버튼들은 form의 action 주소로 method 방식의 요청을 보냄 -->
-                </div>         
+                </div>    
+                </c:if>     
             </form>
         </main>
     </div>

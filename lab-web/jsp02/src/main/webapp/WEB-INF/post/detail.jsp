@@ -25,8 +25,15 @@ h1 {
 input {
     margin : 5px;
 }
+a {
+    color: black;
+    text-decoration: none;
+}
 label {
     margin : 3px;
+}
+.nav-link {
+    font-weight: bold;
 }
 </style>
 </head>
@@ -34,6 +41,15 @@ label {
     <div class="mainDiv">
         <h1>포스트 상세 페이지</h1>
         <nav>
+        <ul>
+            <c:if test="${not empty signInUser }">
+                <li class="nav-item">
+                    <c:url var="signOutPage" value="/user/signout"></c:url>
+                    <h6><samp style="color: blue">${signInUser}</samp>님 환영합니다</h6>
+                    <a class="nav-link active" aria-current="page" href="${signOutPage}" style="font-size: 15px; text-decoration: none;">로그아웃</a>
+                </li>
+            </c:if>
+        </ul>
             <ul class="nav justify-content-center">
                 <li class="nav-item">
                     <c:url var="mainPage" value="/"></c:url>
@@ -43,12 +59,14 @@ label {
                     <c:url var="postList" value="/post"></c:url>
                     <a class="nav-link" href="${postList}" style="color: gray;">목록페이지</a>
                 </li>
+                <c:if test="${signInUser == post.author && signInUser == 'admin'}">
                 <li class="nav-item">
                     <c:url var="postModifyPage" value="/post/modify">
                         <c:param name="id" value="${post.id}"></c:param>
                     </c:url>
                     <a class="nav-link" href="${postModifyPage}" style="color: gray;">수정페이지</a>
-                </li>                
+                </li>
+                </c:if>              
             </ul>
         </nav>
         <main>

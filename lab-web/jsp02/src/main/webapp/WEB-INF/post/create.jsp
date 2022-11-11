@@ -22,11 +22,11 @@ h1 {
     margin: 16px;
     padding: 10px;
 }
-.postDiv {
-    }
-    
 input {
     margin : 10px;
+}
+.nav-link {
+    font-weight: bold;
 }
 
 </style>
@@ -36,6 +36,15 @@ input {
         <h1>포스트 작성 페이지</h1>
 
         <nav>
+        <ul class="nav justify-content-center">
+            <c:if test="${not empty signInUser }">
+                <li class="nav-item">
+                    <c:url var="signOutPage" value="/user/signout"></c:url>
+                    <h6><samp style="color: blue">${signInUser}</samp>님 환영합니다</h6>
+                    <a class="nav-link active" aria-current="page" href="${signOutPage}" style="font-size: 15px;">로그아웃</a>
+                </li>
+            </c:if>
+        </ul>
             <ul class="nav justify-content-center">
                 <li class="nav-item">
                     <c:url var="mainPage" value="/"></c:url>
@@ -60,8 +69,8 @@ input {
                         placeholder="내용" required></textarea>
                 </div>
                 <div>
-                    <input type="text" name="author" placeholder="작성자" 
-                    required size=48/>
+                    <%-- 작성자 input은 로그인한 사용자 아이디로 세팅 --%>
+                    <input type="hidden" name="author" value="${signInUser}"  readonly size=48/>
                 </div>
                 <div>
                     <input type="submit" value="작성 완료" />
