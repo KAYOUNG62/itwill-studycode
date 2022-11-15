@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,6 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/applicationContext.xml" })
 public class TestHikariConfig {
+    /*
+     * HikafiConfig : super class
+     * |__ HikariDataSource : sub class
+     * 다형성(polymorphism) 때문에 HikariConfig 타입에는 HikariConfig 객체와 HikariDataSource 객체 모두 주입할 수 있다. 
+     * applicationContext.xml에서 설정한 id 값을 이용해 특정 bean을 주입받고자 할 때에는 @Qualifier("id") 애너테이션을 사용하면됨.
+     */
 
     //스프링은 의존성 주입을 제공한다.
     // 제어의 역전(IoC: Inversion of Control)
@@ -32,7 +39,16 @@ public class TestHikariConfig {
 
     @Autowired
     private HikariDataSource ds;
-
+    
+    @Autowired
+    private SqlSessionFactoryBean sessionFactory;
+    
+    @Test
+    public void testSessionFactory() {
+        Assertions.assertNotNull(sessionFactory);
+        log.info("SqlSessionFactoryBean ={}" , sessionFactory);
+    }
+    
     @Test
     public void testHikafiConfig() throws SQLException {
 //        Assertions.assertNotNull(config);
