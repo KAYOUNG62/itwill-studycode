@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.spring02.domain.Post;
+import com.example.spring02.dto.PostCreateDto;
+import com.example.spring02.dto.PostUpdateDto;
 import com.example.spring02.mapper.PostMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -29,21 +31,23 @@ public class PostService {
     }
     
     public Post readById(Integer id) {
+        log.info("readById(id={})",id);
+        
         return postMapper.selectById(id);
     }
     
-    public Integer cteate(Post entity) {
-        return postMapper.insert(entity);
+    public Integer cteate(PostCreateDto dto) {
+        log.info("create(dto={})",dto);
+        return postMapper.insert(dto.toEntity());
     }
     
-    public Integer update(Post entity) {
-        return postMapper.updateById(entity);
+    public Integer update(PostUpdateDto dto) {
+        return postMapper.updateById(dto.toEntity());
     }
     
     public Integer delete(Integer id) {
+        log.info("delete(id={})",id);
         return postMapper.deleteById(id);
     }
     
-    // 새글작성, 글번호검색, 수정, 삭제서비스
-
 }

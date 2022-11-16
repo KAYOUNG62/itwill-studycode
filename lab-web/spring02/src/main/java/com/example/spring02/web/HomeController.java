@@ -12,7 +12,7 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
         log.info("home()");
-        return "index";
+        return "index"; // /WEB-INF/views/index.jsp
     }
     
     

@@ -18,45 +18,24 @@
         <!-- m: margin, y: y축, p:pading-->
         <header class="my-2 p-5 text-center text-bg-secondary">
             <h1>Spring MVC &amp; MyBatis</h1>
-            <h2>New Post</h2>
+            <h2>Main</h2>
         </header>
         
         <nav class="bg-light">
             <ul class="nav ">
                 <li class="nav-item">
-                    <c:url var="mainPage" value="/"></c:url>
-                    <a class="nav-link active" href="${mainPage}">Main</a>
+                    <a class="nav-link active" href="#">LINK 1</a>
                 </li>
                 <li class="nav-item">
-                    <c:url var="postListPage" value="/post/list"></c:url>
-                    <a class="nav-link" href="${postListPage}">Post List</a>
+                    <a class="nav-link disabled" href="#">LINK 2</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">LINK 3</a>
                 </li>
             </ul>
         </nav>
-        <main>
-            <div class="card my-4">
-                <form class="m-3" method="post">
-                    <div class="my-2">
-                        <!-- label에 for, input에 id를 주면 label을 선택했을때 input에 포커스가 생김 -->
-                        <label for="title" class="form-label">TITLE</label>
-                        <input id="title" class="form-control" type="text" name="title" required autofocus/>
-                    </div>
-                    <div class="my-2">
-                        <label for="content" class="form-label">CONTENT</label>
-                        <textarea id="content" class="form-control" name="content" rows="5" cols="40" required></textarea>
-                    </div>
-                    <div class="my-2">
-                        <label for="author" class="form-label">AUTHOR</label>
-                        <input id="author" class="form-control" type="text" name="author" required/>
-                    </div>
-                    <div class="my-2">
-                        <input class="form-control btn btn-success"type="submit" value="작성완료"/>                    
-                    </div>
-                </form>            
-            </div>
+        <main> <!-- TODO: main content -->
+                    
         </main>
     </div>
 
