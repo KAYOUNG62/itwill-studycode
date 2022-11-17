@@ -91,22 +91,24 @@
     		}
     	});
     	
-    	const btnUpdate = document.querySelector('btnUpdate');
+    	const btnUpdate = document.querySelector('#btnUpdate');
     	btnUpdate.addEventListener('click', function(event) {
-    		event.preventDefault();
+    		event.preventDefault(); // 폼 버튼의 기본동작(submit)을 막음.
     		
-    	    const title = document.querySelector('#title').value;
-    	    const content = document.querySelector('#content').value;
     	    
-    	    if (title == '' || content == ''){
-    	    	alert('내용을 입력하세요')
-    	    	return;
-    	    }
-    	    
-    		const check = confirm('수정하시겠습니까?');
-    		if(check) {
-    			form.action = '${postUpdatePage}';
-    			form.method = 'post';
+    		const result = confirm('수정하시겠습니까?');
+    		if(result) {
+    			
+        	    const title = document.querySelector('#title').value;
+        	    const content = document.querySelector('#content').value;
+        	    
+        	    if(title == '' || content == ''){
+        	    	alert('내용을 입력하세요')
+        	    	return;
+        	    }
+    			
+    			form.action = '${postUpdatePage}'; // submit update 요청을 보낼 주소
+    			form.method = 'post';  // submit 요청 방식
     			form.submit();
     		}
     	});

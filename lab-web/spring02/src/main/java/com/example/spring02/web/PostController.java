@@ -7,10 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.spring02.domain.Post;
 import com.example.spring02.dto.PostCreateDto;
+import com.example.spring02.dto.PostSearchDto;
 import com.example.spring02.dto.PostUpdateDto;
 import com.example.spring02.service.PostService;
 
@@ -95,7 +95,18 @@ public class PostController {
         
         postService.update(dto);
         
-        return "redirect:/post/detail";
+        return "redirect:/post/detail?id=" + dto.getId();
+    }
+    
+    @GetMapping("/search")
+    public String search(PostSearchDto dto, Model model) {
+        log.info("search(dto={})", dto);
+        
+        //검색 서비스를 수행
+        List<Post> result = postService.search(dto);
+        model.addAttribute("list" , result);
+        
+        return "/post/list";
     }
 
 }

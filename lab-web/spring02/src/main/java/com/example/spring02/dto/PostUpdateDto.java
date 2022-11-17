@@ -16,4 +16,5 @@ public class PostUpdateDto {
     public Post toEntity() {
         return Post.builder().id(id).title(title).content(content).build();
     }
+
 }

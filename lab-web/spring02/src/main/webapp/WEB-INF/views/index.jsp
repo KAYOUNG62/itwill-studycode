@@ -22,18 +22,24 @@
         </header>
         
         <nav class="bg-light">
-            <ul class="nav ">
-                <li class="nav-item">
-                    <c:url var="postListPage" value="/post/list"></c:url>
-                    <a class="nav-link active" href="${postListPage}">Post List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">LINK 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">LINK 3</a>
-                </li>
-            </ul>
+                <ul class="nav ">
+                    <li class="nav-item">
+                        <c:url var="postListPage" value="/post/list"></c:url>
+                        <a class="nav-link active" href="${postListPage}">Post List</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url var="signInPage" value="/user/signIn"></c:url>
+                        <a class="nav-link active" href="${signInPage}">SignIn</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url var="signUpPage" value="/user/signUp"></c:url>
+                        <a class="nav-link active" href="${signUpPage}">SignUp</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url var="userList" value="/user/userList"></c:url>
+                        <a class="nav-link active" href="${userList}">UserList</a>
+                    </li>                    
+                </ul>
         </nav>
         <main> <!-- TODO: main content -->
                     

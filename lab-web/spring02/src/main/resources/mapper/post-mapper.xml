@@ -15,18 +15,36 @@
     
     <!-- #{} 안에는 POST class 에서 작성했던 변수 이름을 적는다. -->
     <insert id="insert">
-    insert into POSTS (TITLE, CONTENT, AUTHOR, CREATED_TIME, MODIFIED_TIME) values (#{title}, #{content}, #{author}, sysdate, sysdate)
+        insert into POSTS (TITLE, CONTENT, AUTHOR, CREATED_TIME, MODIFIED_TIME) values (#{title}, #{content}, #{author}, sysdate, sysdate)
     </insert>
     
     <select id="selectById" resultType="com.example.spring02.domain.Post">
-    select * from POSTS where ID = #{id}
+        select * from POSTS where ID = #{id}
     </select>
     
     <update id="updateById">
-    update POSTS set TITLE = #{title}, CONTENT = #{content}, MODIFIED_TIME = sysdate where ID = #{id} 
+        update POSTS set TITLE = #{title}, CONTENT = #{content}, MODIFIED_TIME = sysdate where ID = #{id} 
     </update>
 
     <delete id="deleteById">
-    delete from POSTS where ID = #{id}    
+        delete from POSTS where ID = #{id}    
     </delete>
+    
+    <select id="searchByKeyword" resultType="com.example.spring02.domain.Post">
+        select * from POSTS where 
+        <if test="type == 't'.toString()">
+            lower(TITLE) like #{keyword} 
+        </if> 
+        <if test="type == 'c'.toString()">
+            lower(CONTENT) like #{keyword} 
+        </if> 
+        <if test="type == 'tc'.toString()">
+            lower(TITLE) like #{keyword} or lower(CONTENT) like #{keyword} 
+        </if> 
+        <if test="type == 'a'.toString()">
+            lower(AUTHOR) like #{keyword} 
+        </if> 
+        order by ID desc
+    </select>
+    
 </mapper>
