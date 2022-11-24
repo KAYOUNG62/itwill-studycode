@@ -10,6 +10,28 @@
             <h1>포스트 목록 페이지</h1>
         </div>
         <div class="card-body">
+            <div class="my-2">
+                <form th:action="@{ /post/search }">
+                    <div class="row">
+                        <div class="col-3">
+                            <select name="type" class="form-control">
+                                <option value="t">제목</option>
+                                <option value="c">내용</option>
+                                <option value="tc">제목+내용</option>
+                                <option value="a">작성자</option>
+                            </select>
+                        </div>
+                        <div class="col-7" >
+                            <input type="text" name="keyword" class="form-control" placeholder="검색어" required autofocus />
+                        </div>
+                        <div class="col-2" >
+                            <input type="submit" value="검색" class="btn btn-outline-info" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card-body">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -22,7 +44,9 @@
                 <tbody>
                     <tr th:each="post : ${ list }">
                         <td th:text="${post.id}"></td>
-                        <td th:text="${post.title}"></td>
+                        <td>
+                            <a th:href="@{ /post/detail?id={id} (id = ${post.id}) }" th:text="${post.title}"></a>
+                        </td>
                         <td th:text="${post.author}"></td>
                         <td
                             th:text="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
@@ -49,15 +73,43 @@
             </div>
         </div>
     </div>
+    
+        <div id="deleteModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete</h5>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>글([[ ${deletedPostId} ]])번 삭제 완료</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-if([[ ${createdId} ]]) { 
+if([[ ${ createdId } ]]) { 
 	//redirect attribute가 있는 경우
     const createModal = document.querySelector('#createModal');
 	const modal = new bootstrap.Modal(createModal);
 	modal.show();
 }
+
+if([[ ${ deletedPostId } ]]) { 
+    //redirect attribute가 있는 경우
+    const deleteModal = document.querySelector('#deleteModal');
+    const modal = new bootstrap.Modal(deleteModal);
+    modal.show();
+}
+
 
 </script>
 

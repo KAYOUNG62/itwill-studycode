@@ -1,0 +1,18 @@
+package com.example.spring03.dto;
+
+import com.example.spring03.domain.Post;
+
+import lombok.Data;
+
+@Data
+public class PostUpdateDto {
+    //필드 이름은 요청파라미터와 동일.
+    private Integer id;
+    private String title;
+    private String content;
+    
+    //DTO를 Entity 객체로 변환/리턴 ->PostService에서 PostRepository 메서드를 호출할 때 사용
+    public Post toEntity() {
+        return Post.builder().id(id).title(title).content(content).build();
+    }
+}
