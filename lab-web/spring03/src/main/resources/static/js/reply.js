@@ -85,5 +85,87 @@ window.addEventListener('DOMContentLoaded', () => {
                 + '</div>'
         }
         divReplies.innerHTML = str;
+
+        // 수정 버튼들이 HTML 요소로 만들어진 이후에, 이벤트 리스너를 등록.
+        const buttons = document.querySelectorAll('.btnModifies');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', getReply);
+        });
+    }
+
+    function getReply(event) {
+        // console.log(event.target); -> 이벤트가 발생한 타켓 (버튼)
+        // 클릭된 버튼의 data-rid 속성값을 읽음.
+        const rid = event.target.getAttribute('data-rid');
+        
+        // 해당 댓글 아이디의 댓글 객체를 Ajax GET 방식으로 요청
+        axios.get('/api/reply/' + rid)
+        .then(response =>{ showModal(response.data) })
+        .catch(err => {console.log(err)});
+    
+    }
+    const divModal = document.querySelector('#replyModal');
+    const replyModal = new bootstrap.Modal(divModal); // 부트스트랩 Modal 객체 생성
+    const modalReplyId = document.querySelector('#modalReplyId');
+    const modalReplyText = document.querySelector('#modalReplyText');
+    const modalBtnDelete = document.querySelector('#modalBtnDelete');
+    const modalBtnUpdate = document.querySelector('#modalBtnUpdate');
+    
+    function showModal(reply) {
+        // Modal 댓글 아이디/내용 채우기
+        modalReplyId.value = reply.replyId;
+        modalReplyText.value = reply.replyText;
+        
+        replyModal.show(); // 모달을 화면에 보여주기
+    }
+    
+    modalBtnDelete.addEventListener('click', deleteReply)
+    modalBtnUpdate.addEventListener('click', updateReply)
+    
+    function deleteReply(event){
+        const replyId = modalReplyId.value; // 삭제할 댓글 아이디
+        const result = confirm('정말 삭제하시겠습니까?')
+        if(result) {
+            axios
+            .delete('/api/reply/' + replyId) // Ajax DELETE 요청 전송
+            .then(response =>{ 
+                alert(`#${response.data} 댓글 삭제 완료`);
+                readAllReplies(); // 댓글 목록 갱신
+            }) // 성공(HTTP 200 ok) 응답
+            .catch( err =>{console.log(err)} ) // 실패 응답(HTTP 40x, 50x, ... )
+            .then(function(){
+                // 성공 응답 처리 또는 실패 응답처리가 끝났을때 무조건 실행
+                replyModal.hide(); // 모달 닫기
+            })
+        }
+    }
+    
+    
+    function updateReply(event){
+        const replyId = modalReplyId.value; // 수정할 댓글 아이디
+        const replyText = modalReplyText.value; // 수정할 댓글 내용
+        
+        if(replyText == '') {
+            alert('댓글 내용을 입력하세요');
+            return;
+        }
+        
+        const result = confirm('수정하시겠습니까?') 
+        if(result) {
+            const data = {replyText: replyText}; // Ajax 요청으로 보낼 데이터 객체.
+            axios
+            .put('/api/reply/' +replyId, data) // Ajax PUT 요청을 전송
+            .then( response => {
+                alert(`#${response.data} 댓글 수정 성공`)
+                readAllReplies(); // 댓글 목록 갱신
+            } ) // 성공응답
+            .catch( err => {console.log(err)} ) // 실패응답
+            .then(function(){ 
+                replyModal.hide();
+            }); 
+        }
     }
 });
+
+// 404 err : URL mapping
+// 405 err : URL ok, method x
