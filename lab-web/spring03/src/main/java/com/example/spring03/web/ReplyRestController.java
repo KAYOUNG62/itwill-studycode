@@ -3,6 +3,7 @@ package com.example.spring03.web;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ReplyRestController {
     
     private final ReplyService replyService;
     
+    @PreAuthorize("hasRole('USER')")
     @PostMapping // 댓글 등록 REST 서비스
     public ResponseEntity<Integer> registerReply(@RequestBody ReplyRegisterDto dto) {
         // Ajax 요청에서 서버로 보내는 데이터 HTTP 패킷의 body에 포함됨.
@@ -41,6 +43,7 @@ public class ReplyRestController {
         return ResponseEntity.ok(replyId); // 작성된 댓글의 아이디를 응답 데이터(response data)로 만들어서 Ajax 요청에 대한 성공 응답을 전송.
     }
     
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/all/{postId}") // {} > 변수표시
     // REST Controller 에서 ResponseEntity를 리턴할때 데이터 타입으로 엔터티 클래스를 사용하면 안됨
     public ResponseEntity<List<ReplyReadDto>> readAllReplies(@PathVariable Integer postId){
@@ -55,6 +58,7 @@ public class ReplyRestController {
         // 클라이언트(브라우저)로 전송. 
     }
     
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{replyId}")
     public ResponseEntity<ReplyReadDto> getReply(@PathVariable Integer replyId) {
         log.info("getReply(replyId={}", replyId);
@@ -64,6 +68,7 @@ public class ReplyRestController {
         return ResponseEntity.ok(dto);
     }
     
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{replyId}")
     public ResponseEntity<Integer> deleteReply(@PathVariable Integer replyId){
         log.info("deleteReply(replyId={})", replyId);
@@ -73,6 +78,7 @@ public class ReplyRestController {
         return ResponseEntity.ok(result);
     }
     
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{replyId}")
     public ResponseEntity<Integer> updateReply(
             @PathVariable Integer replyId, 
